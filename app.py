@@ -7,40 +7,26 @@ from sentence_transformers import SentenceTransformer, util
 from flask import Flask, request, jsonify
 # --- 1. INITIALIZATION & DATA LOADING ---
 
-# --- 1. INITIALIZATION & DATA LOADING ---
-
 print("Starting server... loading models and data.")
 
 app = Flask(__name__)
 
-# 1. INITIALIZE VARIABLES (The fix)
+#1. INITIALIZE VARIABLES 
 df_users = None
 df_transactions = None
 
-# 2. Load data files inside the try block
+ #2. Load data files inside the try block
 try:
     df_users = pd.read_csv("users.csv")
     df_transactions = pd.read_csv("transactions.csv")
 except FileNotFoundError:
-    # Use exit(1) to clearly signal a failure to the system
     print("ERROR: Make sure 'users.csv' and 'transactions.csv' are in the same directory.")
-    exit(1) # Stop the program if files are missing
+    exit(1) 
 
-# This code block is now outside the try/except and guaranteed 
-# to run ONLY if the files were successfully loaded above.
-# (Because the program will exit if they were not.)
-
-# Clean user data: Drop rows where name is missing
 df_users.dropna(subset=['name'], inplace=True)
 
 
 # --- 2. TASK 2: EMBEDDING PRE-COMPUTATION ---
-# ... and so on for the rest of your file.
-
-# --- 2. TASK 2: EMBEDDING PRE-COMPUTATION ---
-
-# Load a pre-trained sentence transformer model
-# 'all-MiniLM-L6-v2' is a good, fast model.
 print("Loading sentence transformer model...")
 model = SentenceTransformer('all-MiniLM-L6-v2')
 
